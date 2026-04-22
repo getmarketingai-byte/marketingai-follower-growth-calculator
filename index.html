@@ -606,6 +606,7 @@
     var consent = document.getElementById('consent').checked;
     var errorEl = document.getElementById('optin-error');
     var successEl = document.getElementById('optin-success');
+    var submitBtn = document.querySelector('.optin-form button[type="submit"]');
 
     if (!consent) {
       errorEl.classList.add('show');
@@ -614,14 +615,30 @@
 
     errorEl.classList.remove('show');
 
-    try {
-      var subs = JSON.parse(localStorage.getItem('optin_emails') || '[]');
-      subs.push({ email: email, timestamp: new Date().toISOString(), consent: true });
-      localStorage.setItem('optin_emails', JSON.stringify(subs));
-    } catch(ex) {}
+    // Disable submit button to prevent double submission
+    if (submitBtn) submitBtn.disabled = true;
 
-    document.getElementById('optin-form').style.display = 'none';
-    successEl.classList.add('show');
+    // Send subscriber email to MailerLite API
+    // MailerLite Account: 2282416, Form ID: 185339817098216933
+    var formData = new FormData();
+    formData.append('email', email);
+    formData.append('fields[consent]', consent);
+
+    fetch('https://assets.mailerlite.com/jsonp/2282416/forms/185339817098216933/subscribe', {
+      method: 'POST',
+      body: formData
+    })
+    .then(function(response) {
+      // MailerLite returns success for both new and existing subscribers
+      document.getElementById('optin-form').style.display = 'none';
+      successEl.classList.add('show');
+    })
+    .catch(function(error) {
+      console.error('MailerLite subscription error:', error);
+      errorEl.classList.add('show');
+      if (submitBtn) submitBtn.disabled = false;
+    });
+  }
   }
 </script>
 
