@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Follower Growth Rate Calculator</title>
+  <meta name="description" content="Calculate your social media follower growth rate instantly. Free tool for Australian businesses. See how you compare to AU SMB benchmarks.">
+  <meta property="og:title" content="Social Media Follower Growth Rate Calculator — Free AU Marketing Tool">
+  <meta property="og:description" content="Calculate your social media follower growth rate instantly. Free tool for Australian businesses.">
+  <meta property="og:type" content="website">
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7076137753154472"
+      crossorigin="anonymous"></script>
+  <!-- Vercel Analytics + Speed Insights -->
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8f9fa;
+      color: #1a1a2e;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    header .logo span { color: #6c63ff; }
+
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      color: #fff;
+      padding: 60px 24px 48px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      margin: -28px auto 32px;
+    }
+
+    .calc-section h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1a1a2e;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    .input-group input[type="number"], .input-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .input-group input[type="number"]:focus, .input-group select:focus {
+      border-color: #6c63ff;
+    }
+
+    .calc-btn {
+      width: 100%;
+      padding: 14px;
+      background: #6c63ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .calc-btn:hover { background: #574fd6; }
+    .calc-btn:active { transform: scale(0.99); }
+
+    .result-box {
+      margin-top: 24px;
+      padding: 24px;
+      border-radius: 10px;
+      background: #f3f1ff;
+      border-left: 4px solid #6c63ff;
+      display: none;
+    }
+
+    .result-box.show { display: block; }
+
+    .result-rate {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #1a1a2e;
+      line-height: 1;
+    }
+
+    .result-label {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 4px;
+      margin-bottom: 16px;
+    }
+
+    .result-detail {
+      background: #fff;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 12px;
+    }
+
+    .result-detail strong { color: #1a1a2e; }
+
+    .benchmark {
+      background: #fff;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .benchmark strong { color: #1a1a2e; }
+
+    .benchmark .status {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .status.above { background: #d1fae5; color: #065f46; }
+    .status.below { background: #fee2e2; color: #991b1b; }
+    .status.at { background: #fef3c7; color: #92400e; }
+
+    .error-msg {
+      color: #dc2626;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .error-msg.show { display: block; }
+
+    .benchmarks-section {
+      margin: 0 auto 32px;
+    }
+
+    .benchmarks-section h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .benchmarks-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .benchmarks-table th {
+      text-align: left;
+      padding: 10px 14px;
+      background: #1a1a2e;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .benchmarks-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .benchmarks-table tr:nth-child(even) td { background: #f8f9fa; }
+    .benchmarks-table tr:hover td { background: #f3f1ff; }
+
+    .optin-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      margin: 0 auto 32px;
+      text-align: center;
+    }
+
+    .optin-card h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .optin-card p {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .optin-form .input-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .optin-form input[type="email"] {
+      flex: 1 1 220px;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .optin-form input[type="email"]:focus { border-color: #6c63ff; }
+
+    .optin-form .submit-btn {
+      flex: 0 0 auto;
+      padding: 12px 20px;
+      background: #6c63ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .optin-form .submit-btn:hover { background: #574fd6; }
+
+    .consent-row {
+      margin-top: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .consent-row input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: #6c63ff;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .consent-row label {
+      font-size: 0.82rem;
+      color: #666;
+    }
+
+    .optin-success {
+      display: none;
+      color: #065f46;
+      background: #d1fae5;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-top: 16px;
+      font-weight: 600;
+    }
+
+    .optin-success.show { display: block; }
+
+    .optin-error {
+      display: none;
+      color: #991b1b;
+      font-size: 0.85rem;
+      margin-top: 8px;
+    }
+
+    .optin-error.show { display: block; }
+
+    .cta-card {
+      background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+      border-radius: 12px;
+      padding: 32px;
+      color: #fff;
+      text-align: center;
+      margin: 0 auto 40px;
+    }
+
+    .cta-card h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .cta-card p {
+      opacity: 0.85;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+
+    .cta-card .price-tag {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .cta-card .price-tag span {
+      font-size: 1rem;
+      font-weight: 400;
+      opacity: 0.7;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: #6c63ff;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .cta-btn:hover { background: #574fd6; transform: translateY(-1px); }
+
+    .cta-card .disclaimer {
+      font-size: 0.78rem;
+      opacity: 0.55;
+      margin-top: 14px;
+    }
+
+    .explainer {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      margin: 0 auto 32px;
+    }
+
+    .explainer h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .explainer p { color: #444; margin-bottom: 12px; font-size: 0.95rem; }
+    .explainer p:last-child { margin-bottom: 0; }
+
+    footer {
+      background: #1a1a2e;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 24px;
+      font-size: 0.82rem;
+    }
+
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    @media (max-width: 500px) {
+      .card, .optin-card, .cta-card, .explainer, .benchmarks-section { border-radius: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="https://marketing-ai-psi-nine.vercel.app/" class="logo">Marketing<span>AI</span></a>
+</header>
+
+<div class="hero">
+  <h1>Social Media Follower Growth Rate Calculator</h1>
+  <p>Calculate your follower growth rate instantly — and see how you stack up against AU SMB benchmarks.</p>
+</div>
+
+<div class="container">
+
+  <!-- Calculator Card -->
+  <div class="card calc-section">
+    <h2>Calculate Your Follower Growth Rate</h2>
+
+    <div class="input-group">
+      <label for="starting-followers">Starting Follower Count</label>
+      <input type="number" id="starting-followers" min="1" placeholder="e.g. 5000" inputmode="numeric">
+    </div>
+
+    <div class="input-group">
+      <label for="ending-followers">Ending Follower Count</label>
+      <input type="number" id="ending-followers" min="1" placeholder="e.g. 6500" inputmode="numeric">
+    </div>
+
+    <div class="input-group">
+      <label for="time-period">Time Period</label>
+      <select id="time-period">
+        <option value="days">Days</option>
+        <option value="months">Months</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="time-value">Duration</label>
+      <input type="number" id="time-value" min="1" placeholder="e.g. 30" inputmode="numeric">
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">Calculate Growth Rate</button>
+
+    <div class="error-msg" id="error-msg">Please enter valid numbers. Starting and ending follower counts must be greater than zero.</div>
+
+    <div class="result-box" id="result-box">
+      <div class="result-rate" id="result-rate">--</div>
+      <div class="result-label">monthly growth rate</div>
+      <div class="result-detail" id="annualised-growth" style="display:none;">
+        <strong>Annualised Growth Rate:</strong> <span id="annualised-rate">--</span>
+      </div>
+      <div class="benchmark" id="benchmark-text"></div>
+    </div>
+  </div>
+
+  <!-- AU SMB Benchmarks Table -->
+  <div class="card benchmarks-section">
+    <h2>AU SMB Social Media Follower Growth Benchmarks</h2>
+    <table class="benchmarks-table">
+      <thead>
+        <tr>
+          <th>Platform / Industry</th>
+          <th>Avg. Monthly Growth (AU)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Instagram - Retail / eCommerce</td><td>3.5% - 6.0%</td></tr>
+        <tr><td>Instagram - Professional Services</td><td>2.0% - 4.0%</td></tr>
+        <tr><td>Facebook - Hospitality</td><td>2.5% - 4.5%</td></tr>
+        <tr><td>LinkedIn - B2B Services</td><td>1.5% - 3.5%</td></tr>
+        <tr><td>TikTok - Content Creator / Entertainment</td><td>5.0% - 12.0%</td></tr>
+        <tr><td>General AU SMB Average</td><td><strong>3.0% - 5.0%</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.78rem;color:#888;margin-top:12px;">Sources: HubSpot AU SMB Data, Later Social Insights. Growth rates vary significantly by content quality, posting frequency, and audience engagement strategy.</p>
+  </div>
+
+  <!-- Email opt-in -->
+  <div class="optin-card">
+    <h2>Get SMB Social Media Benchmarks by Platform</h2>
+    <p>We'll send you a free breakdown of follower growth rates, engagement rates, and content performance across platforms for Australian SMBs.</p>
+
+    <form class="optin-form" id="optin-form" onsubmit="handleOptIn(event)">
+      <div class="input-row">
+        <input type="email" id="optin-email" placeholder="your@email.com" required>
+        <button type="submit" class="submit-btn">Send Me the Benchmarks</button>
+      </div>
+      <div class="consent-row">
+        <input type="checkbox" id="consent" required>
+        <label for="consent">I agree to receive marketing emails from MarketingAI. You can unsubscribe at any time. We never share your data.</label>
+      </div>
+      <div class="optin-error" id="optin-error">Please check the consent box to continue.</div>
+    </form>
+
+    <div class="optin-success" id="optin-success">
+      Thanks! We will email your SMB social media benchmarks shortly.
+    </div>
+  </div>
+
+  <!-- $149 CTA -->
+  <div class="cta-card">
+    <h2>Want a Done-With-You Marketing System?</h2>
+    <p>MarketingAI — $149 once-off setup. We handle your content, posting, and engagement strategy so you can focus on growing your business.</p>
+    <div class="price-tag">$149 AUD <span>one-time setup</span></div>
+    <a href="https://buy.stripe.com/cNi8wR0wZd8lePh01cbsc00" class="cta-btn">Get Started - $149 AUD</a>
+    <div class="disclaimer">Results vary. No guaranteed outcomes. Setup scope detailed on checkout page.</div>
+  </div>
+
+  <!-- Explainer copy -->
+  <div class="explainer">
+    <h2>What Is Follower Growth Rate?</h2>
+    <p>Follower growth rate measures how fast your social media audience is expanding. It's expressed as a percentage and shows whether your social strategy is attracting new followers over a specific time period.</p>
+    <p><strong>Formula:</strong> Growth Rate = ((Ending Followers - Starting Followers) / Starting Followers) × 100</p>
+    <p>For Australian SMBs, a healthy monthly growth rate sits between <strong>3.0% - 5.0%</strong> across most platforms and industries. This translates to roughly 36% - 60% annualised growth, though rates vary significantly by platform (TikTok and Instagram tend to see faster growth than LinkedIn) and content niche.</p>
+    <p>A slow growth rate usually signals one of three issues: inconsistent posting, weak content strategy, or limited audience targeting. The good news is that all three are completely fixable with the right approach.</p>
+    <p>If your monthly growth is consistently below 1%, it's worth auditing your posting frequency, content relevance, and hashtag strategy. If you're above 5%, you're outperforming most Australian SMBs -- focus next on converting followers into customers.</p>
+  </div>
+
+</div>
+
+<footer>
+  <p>2026 MarketingAI - Australian businesses only. Results are indicative. Marketing outcomes are not guaranteed.</p>
+</footer>
+
+<script>
+  var AU_SMB_MONTHLY_AVG = 4.0;
+
+  function calculate() {
+    var startingEl = document.getElementById('starting-followers');
+    var endingEl = document.getElementById('ending-followers');
+    var timePeriodEl = document.getElementById('time-period');
+    var timeValueEl = document.getElementById('time-value');
+    var errorMsg = document.getElementById('error-msg');
+    var resultBox = document.getElementById('result-box');
+    var resultRate = document.getElementById('result-rate');
+    var annualisedDiv = document.getElementById('annualised-growth');
+    var annualisedRate = document.getElementById('annualised-rate');
+    var benchmarkText = document.getElementById('benchmark-text');
+
+    var starting = parseFloat(startingEl.value);
+    var ending = parseFloat(endingEl.value);
+    var timePeriod = timePeriodEl.value;
+    var timeValue = parseFloat(timeValueEl.value);
+
+    if (isNaN(starting) || isNaN(ending) || isNaN(timeValue) || starting <= 0 || ending <= 0 || timeValue <= 0) {
+      errorMsg.textContent = 'Please enter valid positive numbers.';
+      errorMsg.classList.add('show');
+      resultBox.classList.remove('show');
+      return;
+    }
+
+    errorMsg.classList.remove('show');
+
+    var timePeriodMonths = timePeriod === 'months' ? timeValue : (timeValue / 30);
+    var growthRate = ((ending - starting) / starting) * 100;
+    var monthlyGrowthRate = growthRate / timePeriodMonths;
+    var annualisedGrowthRate = ((Math.pow(1 + (monthlyGrowthRate / 100), 12) - 1) * 100);
+
+    resultRate.textContent = monthlyGrowthRate.toFixed(1) + '%';
+    annualisedRate.textContent = annualisedGrowthRate.toFixed(1) + '%';
+    annualisedDiv.style.display = 'block';
+
+    var statusClass, statusLabel, comparisonText;
+    var diff = monthlyGrowthRate - AU_SMB_MONTHLY_AVG;
+
+    if (Math.abs(diff) < 0.5) {
+      statusClass = 'at';
+      statusLabel = 'At AU SMB Average';
+      comparisonText = 'You\'re right at the Australian SMB average of ' + AU_SMB_MONTHLY_AVG + '% monthly growth.';
+    } else if (diff > 0) {
+      statusClass = 'above';
+      statusLabel = '+' + diff.toFixed(1) + '% Above AU SMB Average';
+      comparisonText = 'You\'re outperforming the AU SMB average of ' + AU_SMB_MONTHLY_AVG + '% by <strong>' + diff.toFixed(1) + ' percentage points</strong>. Focus next on converting followers into engaged customers.';
+    } else {
+      statusClass = 'below';
+      statusLabel = diff.toFixed(1) + '% Below AU SMB Average';
+      comparisonText = 'You\'re below the AU SMB average of ' + AU_SMB_MONTHLY_AVG + '%. Consider testing stronger content themes, increasing posting frequency, or refining your audience targeting.';
+    }
+
+    benchmarkText.innerHTML = '<strong>AU SMB Comparison</strong><br><span class="status ' + statusClass + '">' + statusLabel + '</span><p style="margin-top:10px;font-size:0.9rem;color:#444;">' + comparisonText + '</p>';
+
+    resultBox.classList.add('show');
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && ['starting-followers', 'ending-followers', 'time-value'].includes(document.activeElement.id)) {
+      calculate();
+    }
+  });
+
+  function handleOptIn(e) {
+    e.preventDefault();
+    var email = document.getElementById('optin-email').value;
+    var consent = document.getElementById('consent').checked;
+    var errorEl = document.getElementById('optin-error');
+    var successEl = document.getElementById('optin-success');
+
+    if (!consent) {
+      errorEl.classList.add('show');
+      return;
+    }
+
+    errorEl.classList.remove('show');
+
+    try {
+      var subs = JSON.parse(localStorage.getItem('optin_emails') || '[]');
+      subs.push({ email: email, timestamp: new Date().toISOString(), consent: true });
+      localStorage.setItem('optin_emails', JSON.stringify(subs));
+    } catch(ex) {}
+
+    document.getElementById('optin-form').style.display = 'none';
+    successEl.classList.add('show');
+  }
+</script>
+
+</body>
+</html>
